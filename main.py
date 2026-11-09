@@ -31,7 +31,12 @@ quiz3 = Quiz(
     2
 )
 
-# 문제 보여주기!
-quiz1.show()
-quiz2.show()
-quiz3.show()
+quizzes = [quiz1, quiz2, quiz3]
+
+for quiz in quizzes:
+    quiz.show()
+    답 = input("정답 번호를 입력하세요: ")
+    if quiz.is_correct(int(답)):
+        print("정답입니다! 🎉")
+    else:
+        print("틀렸습니다! 😢")
