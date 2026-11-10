@@ -51,25 +51,15 @@
       "answer": 4
     },
     {
-      "question": "0",
+      "question": "다리가 가장 많은 동물은?",
       "choices": [
-        "fjksdfp;ewa",
-        "dfksd;'fdfs",
-        "dlfk;s",
-        "dlk;d"
-      ],
-      "answer": 1
-    },
-    {
-      "question": "가장 오래 사는 동물은?",
-      "choices": [
-        "거북이",
+        "지네",
         "코끼리",
-        "앵무새",
-        "고래"
+        "기린",
+        "거북이"
       ],
       "answer": 1
     }
   ],
-  "best_score": 0
+  "best_score": 3
 }
