@@ -18,6 +18,15 @@ def get_number(prompt, min_val, max_val):
 
         return number                       #올바른 입력이면 숫자 반환
 
+
+def get_text(prompt):
+    while True:                             #올바른 입력까지 계속 반복
+        text = input(prompt).strip()        #앞뒤 공백 제거
+        if text == "":                      #빈 입력 체크
+            print("입력이 비어있습니다. 다시 입력해주세요. 🙏")
+            continue
+        return text                         #내용이 있으면 반환
+
 class Quiz:
     def __init__(self, question, choices, answer):
         self.question = question # 문제
@@ -148,11 +157,11 @@ class QuizGame:
     def add_quiz(self):
         print("\n=== 퀴즈 추가 ===")
 
-        question = input("문제를 입력하세요: ")            #문제받기
+        question = get_text("문제를 입력하세요: ")            #문제받기
 
         choices = []                                       #선택지 담을 빈 리스트
         for i in range(1, 5):                              #1.2.3.4 네 번 반복
-            choice = input(f"{i}번 선택지: ")
+            choice = get_text(f"{i}번 선택지: ")           #선택지(빈 입력 방지)
             choices.append(choice)                         #리스트에 하나씩 추가
 
         answer = get_number("정답 번호(1~4): ", 1, 4)       #정답 받기(검증까지)
