@@ -96,20 +96,24 @@ class QuizGame:
         print("0. 종료")
 
     def run(self):
-        while True:             # 계속 반복
-            self.show_menu()
-            choice = get_number("원하는 번호를 고르세요: ", 0, 4) #공백/빈칸/문자/범위 검증
-            if choice == 0:
-                print("게임을 종료합니다! 👋")
-                break               #반복 멈추기
-            elif choice == 1:
-                self.play_quiz()      #퀴즈 풀기 실행
-            elif choice == 2:
-                self.add_quiz()       #퀴즈 추가 실행       
-            elif choice == 3:
-                self.show_list()
-            elif choice == 4:
-                self.show_score()
+        try:
+            while True:             # 계속 반복
+                self.show_menu()
+                choice = get_number("원하는 번호를 고르세요: ", 0, 4) #공백/빈칸/문자/범위 검증
+                if choice == 0:
+                    print("게임을 종료합니다! 👋")
+                    break               #반복 멈추기
+                elif choice == 1:
+                    self.play_quiz()      #퀴즈 풀기 실행
+                elif choice == 2:
+                    self.add_quiz()       #퀴즈 추가 실행       
+                elif choice == 3:
+                    self.show_list()
+                elif choice == 4:
+                    self.show_score()
+        except (KeyboardInterrupt, EOFError):
+            print("\n\n입력이 중단되어 게임을 안전하게 종료합니다. 💾")
+            self.save()              #종료 전 저장
             
     def play_quiz(self):
         if not self.quizzes:
