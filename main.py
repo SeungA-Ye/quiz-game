@@ -17,8 +17,6 @@ def get_number(prompt, min_val, max_val):
             print("숫자만 입력해주세요! 🔢")
             continue
 
-        number = int(user_input)            #숫자로 변환
-
         if number < min_val or number > max_val:
             print(f"{min_val}~{max_val} 사이로 입력해주세요! 😊")
             continue
@@ -138,7 +136,7 @@ class QuizGame:
         score = 0
         for quiz in self.quizzes:
             quiz.show()
-            답 = get_number("정답 번호를 입력하세요: ", 1, 4)
+            user_answer = get_number("정답 번호를 입력하세요: ", 1, 4)
             if quiz.is_correct(user_answer):
                 print("정답입니다! 🎉")
                 score = score + 1
