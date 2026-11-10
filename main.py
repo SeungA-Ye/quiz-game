@@ -1,3 +1,8 @@
+import json
+from pathlib import Path
+
+STATE_FILE = Path(__file__).resolve().parent / "state.json"   # main.py와 같은 폴더의 state.json
+
 def get_number(prompt, min_val, max_val):
     while True:                             #올바른 입력까지 계속 반복
         user_input = input(prompt).strip()  #앞 뒤 공백 제거
@@ -89,7 +94,6 @@ def get_default_quizzes():
         )
     return [quiz1, quiz2, quiz3, quiz4, quiz5]
 
-import json
 
 class QuizGame:
     def __init__(self):
@@ -182,24 +186,31 @@ class QuizGame:
             "quizzes": [q.to_dict() for q in self.quizzes],
             "best_score": self.best_score
         }
-        with open("state.json", "w", encoding="utf-8") as f: #파일에 저장(UTF-8로 한글 깨짐 방지)
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        try:
+            with open(STATE_FILE, "w", encoding="utf-8") as f:  #파일에 저장(UTF-8로 한글 깨짐 방지)
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        except OSError:                                      #쓰기 오류(권한 없음, 디스크 문제 등)
+            print("⚠️ 파일 저장 중 오류가 발생했어요. 이번 변경은 저장되지 않았습니다.")
 
     def load(self):
         try:
-            with open("state.json", "r", encoding="utf-8") as f:
+            with open(STATE_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
             self.quizzes = [Quiz.from_dict(d) for d in data["quizzes"]]
             self.best_score = data["best_score"]
+            print(f"📂 저장된 데이터를 불러왔습니다. (퀴즈 {len(self.quizzes)}개, 최고 점수 {self.best_score})")
 
-        except FileNotFoundError:
+        except FileNotFoundError:                            #파일이 없을 때(첫 실행)
             print("저장된 파일이 없어 기본 퀴즈로 시작합니다.")
             self.quizzes = get_default_quizzes()
 
-        except (json.JSONDecodeError, KeyError):
+        except (json.JSONDecodeError, KeyError, TypeError):  #파일 내용이 손상됐을 때
             print("파일이 손상되어 기본 퀴즈로 복구합니다.")
             self.quizzes = get_default_quizzes()
 
+        except OSError:                                      #그 밖의 읽기 오류
+            print("파일을 읽을 수 없어 기본 퀴즈로 시작합니다.")
+            self.quizzes = get_default_quizzes()
 
 if __name__ == "__main__":
     game = QuizGame() # 게임 만들기
