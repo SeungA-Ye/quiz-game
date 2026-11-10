@@ -91,6 +91,10 @@ class QuizGame:
                 self.show_list()
 
     def play_quiz(self):
+        if not self.quizzes:
+            print("풀 수 있는 퀴즈가 없어요! 😢")
+            return
+        
         score = 0
         for quiz in self.quizzes:
             quiz.show()
@@ -101,6 +105,11 @@ class QuizGame:
             else:
                 print("틀렸습니다! 😢")
         print(f"\n최종 점수: {score} / {len(self.quizzes)}")
+
+        if score > self.best_score:
+            self.best_score = score
+            print("🏆 최고 점수를 갱신했어요!")
+
 
     def show_list(self):
         print("\n=== 퀴즈 목록 ===")
