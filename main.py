@@ -11,7 +11,9 @@ def get_number(prompt, min_val, max_val):
             print("입력이 비어있습니다. 다시 입력해주세요. 🙏")
             continue
 
-        if not user_input.isdigit():        #숫자가 아니면
+        try:
+            number = int(user_input)        #숫자로 변환 시도
+        except ValueError:                  #abc처럼 변환할 수 없으면
             print("숫자만 입력해주세요! 🔢")
             continue
 
@@ -61,7 +63,7 @@ class Quiz:
             data["answer"]
         )
 
-# 문제 3개 만들기 (틀로 찍어내기!)
+# 기본 퀴즈 5개 만들기 (틀로 찍어내기!)
 def get_default_quizzes():
     quiz1 = Quiz(
         "지구에 사는 동물 가운데 가장 큰 동물은?",
@@ -137,7 +139,7 @@ class QuizGame:
         for quiz in self.quizzes:
             quiz.show()
             답 = get_number("정답 번호를 입력하세요: ", 1, 4)
-            if quiz.is_correct(답):
+            if quiz.is_correct(user_answer):
                 print("정답입니다! 🎉")
                 score = score + 1
             else:
