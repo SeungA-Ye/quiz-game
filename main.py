@@ -98,21 +98,19 @@ class QuizGame:
     def run(self):
         while True:             # 계속 반복
             self.show_menu()
-            choice = input("원하는 번호를 고르세요: ")
-            if choice == "0":
+            choice = get_number("원하는 번호를 고르세요: ", 0, 4) #공백/빈칸/문자/범위 검증
+            if choice == 0:
                 print("게임을 종료합니다! 👋")
                 break               #반복 멈추기
-            elif choice == "1":
+            elif choice == 1:
                 self.play_quiz()      #퀴즈 풀기 실행
-            elif choice == "2":
+            elif choice == 2:
                 self.add_quiz()       #퀴즈 추가 실행       
-            elif choice == "3":
+            elif choice == 3:
                 self.show_list()
-            elif choice == "4":
+            elif choice == 4:
                 self.show_score()
-            else:
-                print("없는 번호예요! 다시 골라주세요 🙏")
-
+            
     def play_quiz(self):
         if not self.quizzes:
             print("풀 수 있는 퀴즈가 없어요! 😢")
