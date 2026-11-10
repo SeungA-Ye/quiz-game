@@ -67,14 +67,22 @@ class QuizGame:
             if choice == "0":
                 print("게임을 종료합니다! 👋")
                 break               #반복 멈추기
+            elif choice == "1":
+                self.play_quiz()      #퀴즈 풀기 실행
 
-# for quiz in quizzes:
-    # quiz.show()
-   # 답 = input("정답 번호를 입력하세요: ")
-   # if quiz.is_correct(int(답)):
-  #      print("정답입니다! 🎉")
-   # else:
- #       print("틀렸습니다! 😢")
+    def play_quiz(self):
+        score = 0
+        for quiz in self.quizzes:
+            quiz.show()
+            답 = input("정답 번호를 입력하세요: ")
+            if quiz.is_correct(int(답)):
+                print("정답입니다! 🎉")
+                score = score + 1
+            else:
+                print("틀렸습니다! 😢")
+        print(f"\n최종 점수: {score} / {len(self.quizzes)}")
+
+
 
 game = QuizGame() # 게임 만들기
 game.run() # 게임 실행!
