@@ -45,8 +45,6 @@ def get_default_quizzes():
         )
     return [quiz1, quiz2, quiz3, quiz4, quiz5]
 
-quizzes = get_default_quizzes()
-
 class QuizGame:
     def __init__(self):
         self.quizzes = get_default_quizzes() #퀴즈 5개 담기
@@ -69,6 +67,8 @@ class QuizGame:
                 break               #반복 멈추기
             elif choice == "1":
                 self.play_quiz()      #퀴즈 풀기 실행
+            elif choice == "3":
+                self.show_list()
 
     def play_quiz(self):
         score = 0
@@ -81,6 +81,12 @@ class QuizGame:
             else:
                 print("틀렸습니다! 😢")
         print(f"\n최종 점수: {score} / {len(self.quizzes)}")
+
+    def show_list(self):
+        print("\n=== 퀴즈 목록 ===")
+        for quiz in self.quizzes:       #퀴즈 하나씩 꺼내서
+            quiz.show()                #퀴즈 보여주기
+            print()                     #문제 사이에 한 줄 띄우기
 
 
 
