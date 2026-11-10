@@ -57,3 +57,7 @@ quiz-game/
 
 ### 🎮 점수 확인
 ![점수 확인](docs/screenshots/score.png)
+
+
+## 💭 프로젝트 소감
+처음으로 Git과 클래스를 활용해 완성한 프로젝트라 뿌듯하다!
