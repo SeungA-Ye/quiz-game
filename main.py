@@ -32,6 +32,21 @@ class Quiz:
     def is_correct(self, user_input):
         return self.answer == user_input
 
+    def to_dict(self):
+        return {
+            "question": self.question,
+            "choices": self.choices,
+            "answer": self.answer
+        }
+
+    @staticmethod
+    def from_dict(data):
+        return Quiz(
+            data["question"],
+            data["choices"],
+            data["answer"]
+        )
+
 # 문제 3개 만들기 (틀로 찍어내기!)
 def get_default_quizzes():
     quiz1 = Quiz(
@@ -65,10 +80,12 @@ def get_default_quizzes():
         )
     return [quiz1, quiz2, quiz3, quiz4, quiz5]
 
+import json
+
 class QuizGame:
     def __init__(self):
-        self.quizzes = get_default_quizzes() #퀴즈 5개 담기
         self.best_score = 0 # 최고 점수
+        self.load() # 시작할 때 불러오기
 
     def show_menu(self):
         print("\n==== 퀴즈 게임 ====")
@@ -115,7 +132,7 @@ class QuizGame:
         if score > self.best_score:
             self.best_score = score
             print("🏆 최고 점수를 갱신했어요!")
-
+            self.save()                 #점수 갱신 후 저장
 
     def show_list(self):
         print("\n=== 퀴즈 목록 ===")
@@ -142,6 +159,32 @@ class QuizGame:
         self.quizzes.append(new_quiz)                       #퀴즈 목록에 추가
 
         print("퀴즈가 추가되었어요! 🎉")
+        self.save()                                         #추가 후 저장
+    
+    def save(self):
+        data = {                                             #모든 퀴즈를 딕셔너리로 변환
+            "quizzes": [q.to_dict() for q in self.quizzes],
+            "best_score": self.best_score
+        }
+        with open("state.json", "w", encoding="utf-8") as f: #파일에 저장(UTF-8로 한글 깨짐 방지)
+            json.dump(data, f, ensure_ascii=False, indent=2)
 
-game = QuizGame() # 게임 만들기
-game.run() # 게임 실행!
+    def load(self):
+        try:
+            with open("state.json", "r", encoding="utf-8") as f:
+                data = json.load(f)
+            self.quizzes = [Quiz.from_dict(d) for d in data["quizzes"]]
+            self.best_score = data["best_score"]
+
+        except FileNotFoundError:
+            print("저장된 파일이 없어 기본 퀴즈로 시작합니다.")
+            self.quizzes = get_default_quizzes()
+
+        except (json.JSONDecodeError, KeyError):
+            print("파일이 손상되어 기본 퀴즈로 복구합니다.")
+            self.quizzes = get_default_quizzes()
+
+
+if __name__ == "__main__":
+    game = QuizGame() # 게임 만들기
+    game.run() # 게임 실행!
