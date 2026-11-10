@@ -87,8 +87,14 @@ class QuizGame:
                 break               #반복 멈추기
             elif choice == "1":
                 self.play_quiz()      #퀴즈 풀기 실행
+            elif choice == "2":
+                self.add_quiz()       #퀴즈 추가 실행       
             elif choice == "3":
                 self.show_list()
+            elif choice == "4":
+                self.show_score()
+            else:
+                print("없는 번호예요! 다시 골라주세요 🙏")
 
     def play_quiz(self):
         if not self.quizzes:
@@ -114,10 +120,28 @@ class QuizGame:
     def show_list(self):
         print("\n=== 퀴즈 목록 ===")
         for quiz in self.quizzes:       #퀴즈 하나씩 꺼내서
-            quiz.show()                #퀴즈 보여주기
+            quiz.show()                 #퀴즈 보여주기
             print()                     #문제 사이에 한 줄 띄우기
 
+    def show_score(self):
+        print(f"\n🏆 현재 최고 점수: {self.best_score} / {len(self.quizzes)}")
 
+    def add_quiz(self):
+        print("\n=== 퀴즈 추가 ===")
+
+        question = input("문제를 입력하세요: ")            #문제받기
+
+        choices = []                                       #선택지 담을 빈 리스트
+        for i in range(1, 5):                              #1.2.3.4 네 번 반복
+            choice = input(f"{i}번 선택지: ")
+            choices.append(choice)                         #리스트에 하나씩 추가
+
+        answer = get_number("정답 번호(1~4): ", 1, 4)       #정답 받기(검증까지)
+
+        new_quiz = Quiz(question, choices, answer)          #Quiz 만들기
+        self.quizzes.append(new_quiz)                       #퀴즈 목록에 추가
+
+        print("퀴즈가 추가되었어요! 🎉")
 
 game = QuizGame() # 게임 만들기
 game.run() # 게임 실행!
