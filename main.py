@@ -146,13 +146,18 @@ class QuizGame:
             self.save()                 #점수 갱신 후 저장
 
     def show_list(self):
-        print("\n=== 퀴즈 목록 ===")
-        for quiz in self.quizzes:       #퀴즈 하나씩 꺼내서
-            quiz.show()                 #퀴즈 보여주기
-            print()                     #문제 사이에 한 줄 띄우기
+        if not self.quizzes:                                  #퀴즈가 하나도 없으면
+            print("등록된 퀴즈가 없어요! 😢")
+            return
+        print(f"\n=== 퀴즈 목록 (총 {len(self.quizzes)}개) ===")
+        for num, quiz in enumerate(self.quizzes, 1):          #1번부터 번호 붙이기
+            print(f"[{num}] {quiz.question}")
 
     def show_score(self):
-        print(f"\n🏆 현재 최고 점수: {self.best_score} / {len(self.quizzes)}")
+        if self.best_score == 0:                              #아직 기록이 없으면
+            print("\n아직 퀴즈를 푼 기록이 없어요! 먼저 퀴즈를 풀어보세요. 📝")
+            return
+        print(f"\n🏆 최고 점수: {self.best_score}문제 정답")
 
     def add_quiz(self):
         print("\n=== 퀴즈 추가 ===")
