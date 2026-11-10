@@ -47,10 +47,34 @@ def get_default_quizzes():
 
 quizzes = get_default_quizzes()
 
-for quiz in quizzes:
-    quiz.show()
-    답 = input("정답 번호를 입력하세요: ")
-    if quiz.is_correct(int(답)):
-        print("정답입니다! 🎉")
-    else:
-        print("틀렸습니다! 😢")
+class QuizGame:
+    def __init__(self):
+        self.quizzes = get_default_quizzes() #퀴즈 5개 담기
+        self.best_score = 0 # 최고 점수
+
+    def show_menu(self):
+        print("\n==== 퀴즈 게임 ====")
+        print("1. 퀴즈 풀기")
+        print("2. 퀴즈 추가")
+        print("3. 퀴즈 목록")
+        print("4. 점수 확인")
+        print("0. 종료")
+
+    def run(self):
+        while True:             # 계속 반복
+            self.show_menu()
+            choice = input("원하는 번호를 고르세요: ")
+            if choice == "0":
+                print("게임을 종료합니다! 👋")
+                break               #반복 멈추기
+
+# for quiz in quizzes:
+    # quiz.show()
+   # 답 = input("정답 번호를 입력하세요: ")
+   # if quiz.is_correct(int(답)):
+  #      print("정답입니다! 🎉")
+   # else:
+ #       print("틀렸습니다! 😢")
+
+game = QuizGame() # 게임 만들기
+game.run() # 게임 실행!
