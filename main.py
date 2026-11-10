@@ -1,3 +1,23 @@
+def get_number(prompt, min_val, max_val):
+    while True:                             #올바른 입력까지 계속 반복
+        user_input = input(prompt).strip()  #앞 뒤 공백 제거
+
+        if user_input == "":                #빈 입력 체크
+            print("입력이 비어있습니다. 다시 입력해주세요. 🙏")
+            continue
+
+        if not user_input.isdigit():        #숫자가 아니면
+            print("숫자만 입력해주세요! 🔢")
+            continue
+
+        number = int(user_input)            #숫자로 변환
+
+        if number < min_val or number > max_val:
+            print(f"{min_val}~{max_val} 사이로 입력해주세요! 😊")
+            continue
+
+        return number                       #올바른 입력이면 숫자 반환
+
 class Quiz:
     def __init__(self, question, choices, answer):
         self.question = question # 문제
@@ -74,8 +94,8 @@ class QuizGame:
         score = 0
         for quiz in self.quizzes:
             quiz.show()
-            답 = input("정답 번호를 입력하세요: ")
-            if quiz.is_correct(int(답)):
+            답 = get_number("정답 번호를 입력하세요: ", 1, 4)
+            if quiz.is_correct(답):
                 print("정답입니다! 🎉")
                 score = score + 1
             else:
