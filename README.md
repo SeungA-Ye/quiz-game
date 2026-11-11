@@ -220,6 +220,161 @@ python3 benchmark.py
 ### 🌿 Git 커밋 그래프 (`git log --oneline --graph --all`)
 ![Git 로그](docs/screenshots/git-log-graph.png)
 
+## 🖥️ 실행 로그 (터미널 출력)
+
+아래는 WSL2 Ubuntu에서 `python3 main.py`를 실제로 실행한 터미널 출력입니다. (메뉴 반복 출력은 일부 생략)
+
+<details open>
+<summary><b>① 재실행 시 데이터 불러오기 + 퀴즈 풀기 (7문제 전부 정답, 최고 점수 갱신)</b></summary>
+
+```
+$ python3 main.py
+📂 저장된 데이터를 불러왔습니다. (퀴즈 7개, 최고 점수 3)
+
+==== 퀴즈 게임 ====
+1. 퀴즈 풀기
+2. 퀴즈 추가
+3. 퀴즈 목록
+4. 점수 확인
+0. 종료
+원하는 번호를 고르세요: 1
+지구에 사는 동물 가운데 가장 큰 동물은?
+1. 대왕고래
+2. 아프리카코끼리
+3. 고래상어
+4. 향유고래
+정답 번호를 입력하세요: 1
+정답입니다! 🎉
+땅 위에서 가장 빨리 달리는 동물은?
+1. 사자
+2. 캥거루
+3. 얼룩말
+4. 치타
+정답 번호를 입력하세요: 4
+정답입니다! 🎉
+... (3~6번 문제 생략) ...
+펭귄이 사는 곳은?
+1. 남극
+2. 사막
+3. 정글
+4. 초원
+정답 번호를 입력하세요: 1
+정답입니다! 🎉
+
+최종 점수: 7 / 7
+🏆 최고 점수를 갱신했어요!
+
+원하는 번호를 고르세요: 0
+게임을 종료합니다! 👋
+```
+</details>
+
+<details open>
+<summary><b>② 퀴즈 추가 (빈 문제·빈 선택지 입력 방지)</b></summary>
+
+```
+원하는 번호를 고르세요: 2
+
+=== 퀴즈 추가 ===
+문제를 입력하세요: 
+입력이 비어있습니다. 다시 입력해주세요. 🙏
+문제를 입력하세요: 펭귄이 사는 곳은?
+1번 선택지: 
+입력이 비어있습니다. 다시 입력해주세요. 🙏
+1번 선택지: 남극
+2번 선택지: 사막
+3번 선택지: 정글
+4번 선택지: 초원
+정답 번호(1~4): 1
+퀴즈가 추가되었어요! 🎉
+```
+</details>
+
+<details open>
+<summary><b>③ 퀴즈 목록 · 점수 확인</b></summary>
+
+```
+원하는 번호를 고르세요: 3
+
+=== 퀴즈 목록 (총 7개) ===
+[1] 지구에 사는 동물 가운데 가장 큰 동물은?
+[2] 땅 위에서 가장 빨리 달리는 동물은?
+[3] 땅 위에 사는 동물 가운데 키가 가장 큰 동물은?
+[4] 꿀을 만드는 곤충은?
+[5] 날개가 있지만 날지 못하는 새는?
+[6] 다리가 가장 많은 동물은?
+[7] 펭귄이 사는 곳은?
+
+원하는 번호를 고르세요: 4
+
+🏆 최고 점수: 3문제 정답
+```
+</details>
+
+<details open>
+<summary><b>④ 잘못된 입력 처리 (빈 입력 · 문자 · 범위 밖)</b></summary>
+
+```
+원하는 번호를 고르세요: 
+입력이 비어있습니다. 다시 입력해주세요. 🙏
+원하는 번호를 고르세요: abc
+숫자만 입력해주세요! 🔢
+원하는 번호를 고르세요: 9
+0~4 사이로 입력해주세요! 😊
+
+정답 번호를 입력하세요: abd
+숫자만 입력해주세요! 🔢
+```
+</details>
+
+<details open>
+<summary><b>⑤ Ctrl+C(퀴즈 도중) · Ctrl+D(메뉴) 안전 종료</b></summary>
+
+```
+정답 번호를 입력하세요: ^C
+
+입력이 중단되어 게임을 안전하게 종료합니다. 💾
+$ python3 main.py
+
+원하는 번호를 고르세요: 
+
+입력이 중단되어 게임을 안전하게 종료합니다. 💾
+```
+</details>
+
+<details open>
+<summary><b>⑥ 퀴즈·기록이 없을 때 (빈 state.json으로 테스트)</b></summary>
+
+```
+$ cp state.json state.backup.json
+$ echo '{"quizzes": [], "best_score": 0}' > state.json
+$ python3 main.py
+원하는 번호를 고르세요: 3
+등록된 퀴즈가 없어요! 😢
+원하는 번호를 고르세요: 4
+
+아직 퀴즈를 푼 기록이 없어요! 먼저 퀴즈를 풀어보세요. 📝
+원하는 번호를 고르세요: 1
+풀 수 있는 퀴즈가 없어요! 😢
+원하는 번호를 고르세요: 0
+게임을 종료합니다! 👋
+$ mv state.backup.json state.json
+```
+</details>
+
+<details open>
+<summary><b>⑦ 프로젝트 밖에서 실행해도 같은 state.json 사용</b></summary>
+
+```
+$ cd ~
+$ python3 quiz-game/main.py
+📂 저장된 데이터를 불러왔습니다. (퀴즈 7개, 최고 점수 3)
+원하는 번호를 고르세요: 4
+
+🏆 최고 점수: 3문제 정답
+```
+</details>
+
 ## 🌿 Git 작업 흐름
 
 | 단계 | 사용 명령 | 내용 |
@@ -230,6 +385,63 @@ python3 benchmark.py
 | 병합 | `git checkout main`, `git merge --no-ff fix/input-handling` | 병합 기록이 그래프에 남도록 `--no-ff` 사용 |
 | 복제 실습 | `git clone ... quiz-game-clone` | 별도 폴더에 복제 후 README에 한 줄 추가 → commit → push |
 | 가져오기 실습 | `git pull` | 원래 작업 폴더에서 pull로 변경사항 반영 확인 |
+
+## 🔁 clone · pull 실습 로그 (터미널 출력)
+
+<details open>
+<summary><b>① 별도 폴더로 clone → README 한 줄 추가 → commit → push</b></summary>
+
+```
+$ cd ~
+$ git clone https://github.com/SeungA-Ye/quiz-game.git quiz-game-clone
+Cloning into 'quiz-game-clone'...
+remote: Enumerating objects: 85, done.
+remote: Counting objects: 100% (85/85), done.
+remote: Compressing objects: 100% (52/52), done.
+remote: Total 85 (delta 42), reused 70 (delta 27), pack-reused 0 (from 0)
+Receiving objects: 100% (85/85), 189.71 KiB | 9.98 MiB/s, done.
+Resolving deltas: 100% (42/42), done.
+$ cd quiz-game-clone
+$ ls -la
+drwxr-xr-x  7 seunga seunga 4096 Nov 10 21:04 .git
+-rw-r--r--  1 seunga seunga   39 Nov 10 21:04 .gitignore
+-rw-r--r--  1 seunga seunga 1696 Nov 10 21:04 README.md
+drwxr-xr-x  3 seunga seunga 4096 Nov 10 21:04 docs
+-rw-r--r--  1 seunga seunga 8592 Nov 10 21:04 main.py
+$ echo "" >> README.md
+$ echo "> 이 줄은 복제한 저장소(quiz-game-clone)에서 추가했습니다. (clone·pull 실습)" >> README.md
+$ git add README.md
+$ git commit -m "Docs: clone 실습 - 복제 저장소에서 README 한 줄 추가"
+[main 4776faa] Docs: clone 실습 - 복제 저장소에서 README 한 줄 추가
+ 1 file changed, 2 insertions(+)
+$ git push origin main
+To https://github.com/SeungA-Ye/quiz-game.git
+   1a4a2a0..4776faa  main -> main
+```
+</details>
+
+<details open>
+<summary><b>② 원래 작업 폴더에서 pull → 반영 확인</b></summary>
+
+```
+$ cd ~/quiz-game
+$ tail -2 README.md                       # pull 전
+## 💭 프로젝트 소감
+처음으로 Git과 클래스를 활용해 완성한 프로젝트라 뿌듯하다!
+$ git pull
+From https://github.com/SeungA-Ye/quiz-game
+   1a4a2a0..4776faa  main       -> origin/main
+Updating 1a4a2a0..4776faa
+Fast-forward
+ README.md | 2 ++
+ 1 file changed, 2 insertions(+)
+$ tail -2 README.md                       # pull 후
+
+> 이 줄은 복제한 저장소(quiz-game-clone)에서 추가했습니다. (clone·pull 실습)
+```
+
+pull 전에는 마지막 줄이 "프로젝트 소감"이었고, pull 후에는 복제 폴더에서 추가한 줄이 반영되었습니다. clone 폴더에 `state.json`이 없는 것은 `.gitignore`로 Git 추적에서 제외했기 때문입니다.
+</details>
 
 ## ✍️ 커밋 메시지 규칙
 
@@ -252,7 +464,7 @@ python3 benchmark.py
 
 ## 📊 커밋 기록
 
-`git log --oneline | wc -l` 기준 **28개** 커밋 (이 문서 보완 커밋 이전 기준)
+`git log --oneline | wc -l` 기준 **32개** 커밋 (아래 그래프는 28번째 커밋까지, 이후 성능 측정·문서 보완 커밋 4개 추가)
 
 ```
 * f4b2cf3 Fix: 퀴즈 풀기 정답 변수명 불일치(NameError) 수정 및 중복 변환 제거
