@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 .vscode/
 state.json
+state.backup*.json
+state.broken.json
